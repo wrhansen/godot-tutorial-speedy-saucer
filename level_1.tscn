@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://dod3qq5vevqhi"]
+
+[ext_resource type="Texture2D" uid="uid://b56ylrq0xda8i" path="res://purple.png" id="1_b7idf"]
+[ext_resource type="Script" path="res://level.gd" id="1_xnjlh"]
+[ext_resource type="PackedScene" uid="uid://d2go28i8nocjc" path="res://player.tscn" id="2_jltt4"]
+[ext_resource type="Script" path="res://player.gd" id="4_d7ees"]
+[ext_resource type="PackedScene" uid="uid://c8bcid3js5xcw" path="res://maze.tscn" id="5_x0mf8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ehh1j"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_k2alg"]
+font_size = 25
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("1_xnjlh")
+
+[node name="Graphics" type="Node" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Graphics"]
+layer = -10
+
+[node name="Background" type="TextureRect" parent="Graphics/CanvasLayer"]
+z_index = -100
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_b7idf")
+stretch_mode = 1
+
+[node name="StartLabel" type="Label" parent="Graphics"]
+z_index = 25
+offset_left = 500.0
+offset_top = 216.0
+offset_right = 595.0
+offset_bottom = 264.0
+text = "START"
+label_settings = SubResource("LabelSettings_ehh1j")
+
+[node name="EndLabel" type="Label" parent="Graphics"]
+z_index = 25
+offset_left = 845.0
+offset_top = -148.0
+offset_right = 916.0
+offset_bottom = -100.0
+text = "END"
+label_settings = SubResource("LabelSettings_ehh1j")
+
+[node name="TutorialLabel" type="Label" parent="Graphics"]
+offset_left = 45.0
+offset_top = 11.0
+offset_right = 474.0
+offset_bottom = 201.0
+text = "Rules:
+- Use arrows keys or WASD to move
+- Go from the START to the END
+- You will go back to START if 
+you go outside the maze!"
+label_settings = SubResource("LabelSettings_k2alg")
+
+[node name="Maze" parent="." instance=ExtResource("5_x0mf8")]
+position = Vector2(768, 351)
+
+[node name="Player" parent="." instance=ExtResource("2_jltt4")]
+z_index = 50
+position = Vector2(572, 327)
+script = ExtResource("4_d7ees")
+
+[connection signal="body_exited" from="Maze" to="." method="_on_maze_body_exited"]
